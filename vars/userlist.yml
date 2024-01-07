@@ -1,0 +1,19 @@
+---
+userlist:
+  - username: alice
+    uid: 1201
+    shell: /bin/bash
+    home_dir: /home/alice
+  - username: vincent
+    uid: 1202
+    shell: /bin/bash
+    home_dir: /home/vincent
+  - username: sandy
+    uid: 2201
+    shell: /bin/bash
+    home_dir: /home/test
+  - username: patrick
+    uid: 2202
+    shell: /bin/bash
+    home_dir: /home/patrick
+

@@ -1,0 +1,10 @@
+---
+- hosts: all
+  tasks:
+  - set_fact:
+      ansible_local:
+        custom:
+          sample_exam:
+            server_role: mysql
+  - debug:
+      var: ansible_local.custom.sample_exam.server_role

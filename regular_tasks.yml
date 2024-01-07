@@ -1,0 +1,9 @@
+---
+- hosts: test
+  tasks:
+    - cron:
+        name: "time log"
+        minute: "*/3"
+        job: "echo {{ ansible_date_time.date }} >> /var/log/time.log"
+        user: root
+        state: present

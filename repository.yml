@@ -1,0 +1,12 @@
+---
+- hosts: all
+  tasks:
+  - yum_repository:
+      name: haproxy-repo
+      description: HaProxy 8.0 YUM Repo
+      file: external_repos
+      baseurl: http://repo.haproxy.com/yum/haproxy-8.0-community/el/8/x86_64/
+      gpgkey: http://repo.haproxy.com/RPM-GPG-KEY-haproxy
+      gpgcheck: yes
+      enabled: no
+

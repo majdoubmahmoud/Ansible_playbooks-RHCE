@@ -1,0 +1,72 @@
+---
+- hosts: prod
+  vars_files: 
+    - userlist.yml
+  tasks:
+  - include_vars:
+      file: secret.yml
+      name: secret
+  - group:
+      name: exam
+      state: present
+  - user:
+      name: "{{ item.username }}"
+      uid: "{{ item.uid }}"
+      shell: "{{ item.shell }}"
+      home: "{{ item.home_dir }}"
+      groups: exam
+      password: "{{ secret.userpass | password_hash('sha512') }}"
+    loop: "{{ userlist }}"
+    when: item.username in ['alice', 'vincent']
+  - file:
+      name: "{{ item.home_dir }}/.ssh"
+      state: directory
+      owner: "{{ item.username }}"
+      group: "{{ item.username }}"
+      mode: '0700'
+    loop: "{{ userlist }}"
+    when: item.username in ['alice', 'vincent']
+  - copy:
+      src: /home/rhce/.ssh/id_rsa.pub
+      dest: "{{ item.home_dir }}/.ssh/id_rsa.pub"
+      owner: "{{ item.username }}"
+      group: "{{ item.username }}"
+      mode: '0700'
+    loop: "{{ userlist }}"
+    when: item.username in ['alice', 'vincent']
+
+- hosts: dev
+  vars_files:
+    - userlist.yml
+  tasks:
+  - include_vars:
+      file: secret.yml
+      name: secret
+  - group:
+      name: exam
+      state: present
+  - user:
+      name: "{{ item.username }}"
+      uid: "{{ item.uid }}"
+      shell: "{{ item.shell }}"
+      home: "{{ item.home_dir }}"
+      groups: exam
+      password: "{{ secret.userpass | password_hash('sha512') }}"
+    loop: "{{ userlist }}"
+    when: item.username in ['sandy', 'patrick']
+  - file:
+      name: "{{ item.home_dir }}/.ssh"
+      state: directory
+      owner: "{{ item.username }}"
+      group: "{{ item.username }}"
+      mode: '0700'
+    loop: "{{ userlist }}"
+    when: item.username in ['sandy', 'patrick']
+  - copy:
+      src: /home/rhce/.ssh/id_rsa.pub
+      dest: "{{ item.home_dir }}/.ssh/id_rsa.pub"
+      owner: "{{ item.username }}"
+      group: "{{ item.username }}"
+      mode: '0700'
+    loop: "{{ userlist }}"
+    when: item.username in ['sandy', 'patrick']

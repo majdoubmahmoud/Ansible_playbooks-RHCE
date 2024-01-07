@@ -1,0 +1,50 @@
+---
+# tasks file for roles/sample-mysql
+- parted:
+    device: /dev/sda
+    number: 1
+    state: present
+    part_end: 800MiB
+- lvg:
+    vg: vg_database
+    pvs: /dev/sda1
+- lvol:
+    vg: vg_database
+    lv: lv_mysql
+    size: 512m
+- filesystem:
+    fstype: xfs
+    dev: /dev/vg_database/lv_mysql
+- mount:
+    path: /mnt/mysql_backups
+    src: /dev/vg_database/lv_mysql
+    opts: defaults
+    state: mounted
+    fstype: xfs
+
+- dnf:
+    name: mysql-community-server
+    state: latest
+- firewalld:
+    service: mysql
+    permanent: true
+    state: enabled
+    immediate: true
+- firewalld:
+    port: 3306/tcp
+    permanent: true
+    state: enabled
+    immediate: true
+- mysql_user:
+    name: root
+    password: "{{ database_password }}"
+    state: present
+  ignore_errors: yes
+- service:
+    name: mysqld
+    state: started
+    enabled: yes
+- template:
+    src: my.cnf.j2
+    dest: /tmp/mysql.conf
+  notify: restart mysql

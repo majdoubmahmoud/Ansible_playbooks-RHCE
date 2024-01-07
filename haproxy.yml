@@ -1,0 +1,13 @@
+---
+- name: Configure HAPROXY
+  hosts: ansible1
+  become: yes  
+  roles:
+    - geerlingguy.haproxy
+  tasks:
+    - name: Ensure firewalld is allowing to the traffic
+      firewalld:
+        port: 80/tcp
+        permanent: yes
+        immediate: yes
+        state: enabled

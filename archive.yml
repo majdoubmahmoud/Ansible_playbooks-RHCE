@@ -1,0 +1,13 @@
+--- 
+- hosts: all
+  tasks:
+  - file:
+      path: /mnt/mysql_backups
+      state: directory
+  - copy: 
+      dest: /mnt/mysql_backups/database_list.txt
+      content: 'dev,test,qa,prod'
+  - archive:
+      path: /mnt/mysql_backups/database_list.txt
+      dest: /mnt/mysql_backups/archive.gz
+      format: gz

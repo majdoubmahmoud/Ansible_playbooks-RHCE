@@ -1,0 +1,13 @@
+---
+- hosts: dev
+  tasks:
+  - dnf:
+      name:
+      - tcpdump
+      - nmap
+- hosts: prod
+  tasks:
+  - dnf:
+      name:
+      - lsof
+      - nmap

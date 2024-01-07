@@ -1,0 +1,11 @@
+---
+- hosts: all
+  tasks:
+  - template:
+      src: server_list.j2
+      dest: /etc/server_list.txt
+      owner: ansible
+      group: ansible
+      mode: '0600'
+      setype: net_conf_t
+    when: ansible_hostname == 'ansible1'

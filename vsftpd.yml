@@ -1,0 +1,23 @@
+---
+- hosts: all
+  tasks:
+  - lineinfile:
+      path: /etc/vsftpd/vsftpd.conf
+      regexp: '^anonymous_enable'
+      line: anonymous_enable yes
+  - lineinfile:
+      path: /etc/vsftpd/vsftpd.conf
+      regexp: '^ssl_enable'
+      line: ssl_enable no
+  - lineinfile:
+      path: /etc/vsftpd/vsftpd.conf
+      regexp: '^local_enable'
+      line: local_enable no
+   
+    notify:
+    - restart vsftpd
+
+  handlers:
+  - service:
+      name: vsftpd
+      state: restarted

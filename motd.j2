@@ -1,0 +1,7 @@
+{% if 'prod' in group_names %}
+Welcome to prod server
+{% elif 'test' in group_names %}
+Welcome to test server
+{% elif 'dev' in group_names %}
+Welcome to dev server
+{% endif %}
