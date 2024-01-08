@@ -1,4 +1,6 @@
-[prod]
+[proxy]
 ansible1
-[dev]
+[webservers]
 ansible2
+[database]
+ansible3
